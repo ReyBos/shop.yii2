@@ -7,7 +7,9 @@ $this->title = 'My Yii Application';
 use app\components\MenuWidget;
 ?>
 
-<?= MenuWidget::widget(['tpl' => 'menu']); ?>
+<ul class="catalog">
+    <?= MenuWidget::widget(['tpl' => 'menu']); ?>
+</ul>
 
 <section id="slider"><!--slider-->
     <div class="container">
@@ -765,3 +767,8 @@ use app\components\MenuWidget;
         </div>
     </div>
 </section>
+<script>
+    $(".catalog").dcAccordion({
+        speed: 300
+    });
+</script>
