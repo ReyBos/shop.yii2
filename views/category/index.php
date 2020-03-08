@@ -1,7 +1,5 @@
 <?php
 
-/* @var $this yii\web\View */
-
 $this->title = 'My Yii Application';
 
 use app\components\MenuWidget;
@@ -548,6 +546,7 @@ use yii\helpers\Html;
         </div>
     </div>
 </section>
+
 <script>
     $(".catalog").dcAccordion({
         speed: 300
