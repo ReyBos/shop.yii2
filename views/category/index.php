@@ -1,7 +1,5 @@
 <?php
 
-$this->title = 'My Yii Application';
-
 use app\components\MenuWidget;
 use yii\helpers\Html;
 ?>

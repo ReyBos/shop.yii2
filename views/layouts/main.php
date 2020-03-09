@@ -3,13 +3,10 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\assets\LtAppAssete;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 LtAppAssete::register($this);
@@ -69,7 +66,7 @@ LtAppAssete::register($this);
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="logo pull-left">
-                                <a href="index.html"><img src="/images/home/logo.png" alt="" /></a>
+                                <a href="<?= Url::home() ?>"><?= Html::img("@web/images/home/logo.png", ['alt' => 'E-SHOPPER']); ?></a>
                             </div>
                             <div class="btn-group pull-right">
                                 <div class="btn-group">

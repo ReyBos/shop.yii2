@@ -1,7 +1,5 @@
 <?php
 
-$this->title = 'My Yii Application';
-
 use app\components\MenuWidget;
 use yii\helpers\Html;
 ?>
@@ -54,7 +52,7 @@ use yii\helpers\Html;
 
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
-                    <h2 class="title text-center">Features Items</h2>
+                    <h2 class="title text-center"><?= $category->name ?></h2>
                     
                     <?php if (!empty($products)) : ?>
                     
