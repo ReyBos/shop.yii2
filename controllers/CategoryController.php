@@ -20,7 +20,11 @@ class CategoryController extends AppController
     
     public function actionView($id)
     {
-//        $products = Product::find()->where(['category_id' => $id])->all();
+        $category = Category::findOne($id);
+        if (empty($category)) {
+            throw new \yii\web\HttpException(404, 'Такой категории нет.');
+        }
+        
         $query = Product::find()->where(['category_id' => $id]);
         $pages = new Pagination([
             'totalCount' => $query->count(), 
@@ -28,7 +32,7 @@ class CategoryController extends AppController
             'forcePageParam' => false,
             'pageSizeParam' => false,
         ]);
-        $category = Category::findOne($id);
+//        $products = Product::find()->where(['category_id' => $id])->all();
         $products = $query->offset($pages->offset)->limit($pages->limit)->all();
         
         $this->setMeta('E-SHOPPER | ' . $category->name, $category->keywords, $category->description);
