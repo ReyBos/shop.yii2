@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\controllers\AppController;
 use app\models\Category;
 use app\models\Product;
 use yii\data\Pagination;

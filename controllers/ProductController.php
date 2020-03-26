@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use app\controllers\AppController;
-use app\models\Category;
 use app\models\Product;
 
 class ProductController extends AppController
