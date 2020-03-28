@@ -5,7 +5,28 @@
 var RGBChange = function() {
     $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
 };	
-		
+	
+function clearCart() {
+    $.ajax({
+        url: '/cart/clear',
+        type: 'GET',
+        success: function(res) {
+            if (!res) {
+                alert('Error!');
+            }
+            showCart(res);
+        },
+        error: function() {
+            alert('Error!');
+        }
+    });
+}
+        
+function showCart(cart) {
+    $('#cart .modal-body').html(cart);
+    $('#cart').modal('show');
+}
+
 /*scroll to top*/
 
 $(document).ready(function(){
@@ -28,6 +49,11 @@ $(document).ready(function(){
 		});
 	});
         
+        function showCart(cart) {
+            $('#cart .modal-body').html(cart);
+            $('#cart').modal('show');
+        }
+        
         $('.add-to-cart').on('click', function(e) {
             e.preventDefault();
             var id = $(this).data('id');
@@ -39,7 +65,7 @@ $(document).ready(function(){
                     if (!res) {
                         alert('Error!');
                     }
-                    console.log(res);
+                    showCart(res);
                 },
                 error: function() {
                     alert('Error!');
