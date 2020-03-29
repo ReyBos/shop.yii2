@@ -37,10 +37,7 @@ class CartController extends AppController
     public function actionClear() 
     {
         $session = $this->openSession();
-        
-        $session->remove('cart');
-        $session->remove('cart.qty');
-        $session->remove('cart.sum');
+        $this->clearCart($session);
         
         $this->layout = false;
         return $this->render('cart-modal', compact('session'));
@@ -74,17 +71,50 @@ class CartController extends AppController
         $order = new Order();
         
         if ($order->load(\Yii::$app->request->post())) {
-            debug(\Yii::$app->request->post());
+            $order->qty = $session['cart.qty'];
+            $order->sum = $session['cart.sum'];
+            
+            if ($order->save()) {
+                $this->saveOrderItems($session['cart'], $order->id);
+                \Yii::$app->session->setFlash('success', 'Ваш заказ принят. Менеджер вскоре свяжется с Вами.');
+                $this->clearCart($session);
+                
+                return $this->refresh();
+                
+            } else {
+                \Yii::$app->session->setFlash('error', 'Ошибка оформления заказа.');
+            }
         }
         
         return $this->render('view', compact('session', 'order'));
     }
     
-    private function openSession()
+    protected function openSession()
     {
         $session = \Yii::$app->session;
         $session->open();
         
         return $session;
+    }
+    
+    protected function clearCart($session)
+    {
+        $session->remove('cart');
+        $session->remove('cart.qty');
+        $session->remove('cart.sum');
+    }
+    
+    protected function saveOrderItems($items, $orderId)
+    {
+        foreach ($items as $id => $item) {
+            $orderItems = new OrderItems();
+            $orderItems->order_id = $orderId;
+            $orderItems->product_id = $id;
+            $orderItems->name = $item['name'];
+            $orderItems->price = $item['price'];
+            $orderItems->qty_item = $item['qty'];
+            $orderItems->sum_item = $item['qty'] * $item['price'];
+            $orderItems->save();
+        }
     }
 }

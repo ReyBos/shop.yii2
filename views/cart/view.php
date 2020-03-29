@@ -8,6 +8,24 @@ use yii\widgets\ActiveForm;
 
 <div class="container">
     
+    <?php
+    
+    $error = \Yii::$app->session->getFlash('error');
+    if ($error) {
+        echo '<div class="alert alert-danger col-12 mb-4" role="alert">';
+        echo $error;
+        echo '</div>';
+    }
+    
+    $success = \Yii::$app->session->getFlash('success');
+    if ($success) {
+        echo '<div class="alert alert-success col-12 mb-4" role="alert">';
+        echo $success;
+        echo '</div>';
+    }
+        
+    ?>
+    
     <?php if (!empty($session['cart'])) : ?>
 
     <div class="table-responsive">
