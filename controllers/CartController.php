@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Product;
 use app\models\Cart;
+use app\models\Order;
+use app\models\OrderItems;
 
 class CartController extends AppController 
 {
@@ -18,8 +20,7 @@ class CartController extends AppController
             return false;
         }
         
-        $session = \Yii::$app->session;
-        $session->open();
+        $session = $this->openSession();
         
         $cart = new Cart();
         $cart->addToCart($product, $qty);
@@ -35,8 +36,7 @@ class CartController extends AppController
     
     public function actionClear() 
     {
-        $session = \Yii::$app->session;
-        $session->open();
+        $session = $this->openSession();
         
         $session->remove('cart');
         $session->remove('cart.qty');
@@ -49,9 +49,7 @@ class CartController extends AppController
     public function actionDelItem()
     {
         $id = \Yii::$app->request->get('id');
-        
-        $session = \Yii::$app->session;
-        $session->open();
+        $session = $this->openSession();
         
         $cart = new Cart();
         $cart->recalc($id);
@@ -62,8 +60,7 @@ class CartController extends AppController
     
     public function actionShow()
     {
-        $session = \Yii::$app->session;
-        $session->open();
+        $session = $this->openSession();
         
         $this->layout = false;
         return $this->render('cart-modal', compact('session'));
@@ -71,9 +68,23 @@ class CartController extends AppController
     
     public function actionView()
     {
+        $session = $this->openSession();
+        $this->setMeta('Корзина');
+        
+        $order = new Order();
+        
+        if ($order->load(\Yii::$app->request->post())) {
+            debug(\Yii::$app->request->post());
+        }
+        
+        return $this->render('view', compact('session', 'order'));
+    }
+    
+    private function openSession()
+    {
         $session = \Yii::$app->session;
         $session->open();
         
-        return $this->render('view', compact('session'));
+        return $session;
     }
 }
