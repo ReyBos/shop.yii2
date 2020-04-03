@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
@@ -13,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Просмотр заказа №<?= $model->id; ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -34,12 +35,39 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'qty',
             'sum',
-            'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => $model->status ? '<span class="text-danger">Завершен</span>' : '<span class="text-success">Активен</span>',
+            ],
             'name',
             'email:email',
             'phone',
             'address',
         ],
     ]) ?>
+    
+    <?php $items = $model->orderItems; ?>
+    
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($items as $id => $item) : ?>
+                <tr>
+                    <td><a href="<?= Url::to(['/product/view', 'id' => $item->product_id]) ?>"><?= $item['name'] ?></a></td>
+                    <td><?= $item['qty_item'] ?></td>
+                    <td><?= $item['price'] ?></td>
+                    <td><?= $item['sum_item'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
 </div>
