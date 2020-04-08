@@ -67,6 +67,7 @@ class CategoryController extends Controller
         $model = new Category();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \Yii::$app->session->setFlash('success', 'Категория ' . $model->name . ' добавлена!');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

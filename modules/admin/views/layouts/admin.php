@@ -153,7 +153,15 @@ LtAppAssete::register($this);
         </header><!--/header-->
 
         <div class="container">
-        <?= $content; ?>
+            <?php
+            $success = \Yii::$app->session->getFlash('success');
+            if ($success) {
+                echo '<div class="alert alert-success col-12 mb-4" role="alert">';
+                echo $success;
+                echo '</div>';
+            }
+            ?>
+            <?= $content; ?>
         </div>
 
         <footer id="footer"><!--Footer-->
