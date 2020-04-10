@@ -4,6 +4,15 @@ namespace app\models;
 
 class Category extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+    
     public static function tableName()
     {
         return 'category';

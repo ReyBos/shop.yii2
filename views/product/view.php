@@ -45,33 +45,35 @@ use yii\helpers\Url;
                 </div>
             </div>
 
+            <?php 
+            $mainImg = $product->getImage();
+            $gallery = $product->getImages();
+            ?>
+            
             <div class="col-sm-9 padding-right">
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <?= Html::img("@web/images/products/{$product->img}", ['alt' => $product->name]); ?>
+                            <?= Html::img($mainImg->getUrl(), ['alt' => $product->name]); ?>
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
 
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    <a href=""><img src="/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="/images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-
+                                
+                                <?php 
+                                $count = count($gallery);
+                                $i = 0;
+                                foreach ($gallery as $img) :
+                                ?>
+                                
+                                <?php echo ($i % 3 == 0 ? '<div class="item ' . ($i == 0 ? 'active' : '') . '">' : '') ?>
+                                    <a href=""><?= Html::img($img->getUrl('85x84'), ['alt' => '']); ?></a>
+                                <?php $i++; echo (($i % 3 == 0 || $i == $count) ? '</div>' : '') ?>
+                                
+                                <?php endforeach; ?>
+                                
                             </div>
 
                             <!-- Controls -->
