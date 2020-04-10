@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 class ProductController extends Controller
 {
@@ -83,6 +84,12 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $model->upload();
+            }
+            \Yii::$app->session->setFlash('success', "Товар {$model->name} обновлен");
+            
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
